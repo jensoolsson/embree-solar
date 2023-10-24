@@ -1,6 +1,6 @@
 #include "raytrace_solar.h"
 
-RayTraceSolar::RayTraceSolar()
+EmbreeSolar::EmbreeSolar()
 {
     // Plane parameters
     mPp.xMin = -10.0f;
@@ -9,8 +9,8 @@ RayTraceSolar::RayTraceSolar()
     mPp.yMax = 10.0f;
     mPp.xPadding = 0.0f;
     mPp.yPadding = 0.0f;
-    mPp.xCount = 1001;
-    mPp.yCount = 1001;
+    mPp.xCount = 11;
+    mPp.yCount = 11;
 
     // Ray parameters
     mRp.xMin = -10.0f;
@@ -19,8 +19,8 @@ RayTraceSolar::RayTraceSolar()
     mRp.yMax = 10.0f;
     mRp.xPadding = 0.1f;
     mRp.yPadding = 0.1f;
-    mRp.xCount = 500;
-    mRp.yCount = 500;
+    mRp.xCount = 5000;
+    mRp.yCount = 5000;
 
     mVertexCount = mPp.xCount * mPp.yCount;
     mFaceCount = (mPp.xCount - 1) * (mPp.yCount - 1) * 2;
@@ -32,7 +32,7 @@ RayTraceSolar::RayTraceSolar()
     initArrays();
 }
 
-RayTraceSolar::~RayTraceSolar()
+EmbreeSolar::~EmbreeSolar()
 {
     delete[] mRays;
 
@@ -59,13 +59,13 @@ RayTraceSolar::~RayTraceSolar()
     release();
 }
 
-void RayTraceSolar::release()
+void EmbreeSolar::release()
 {
     rtcReleaseScene(mScene);
     rtcReleaseDevice(mDevice);
 }
 
-void RayTraceSolar::initArrays()
+void EmbreeSolar::initArrays()
 {
     mRayCount = mRp.xCount * mRp.yCount;
     mBundle4Count = ceil((float)mRayCount / 4.0f);
@@ -111,7 +111,7 @@ void RayTraceSolar::initArrays()
     }
 }
 
-void RayTraceSolar::createDevice()
+void EmbreeSolar::createDevice()
 {
     mDevice = rtcNewDevice(NULL);
 
@@ -121,17 +121,17 @@ void RayTraceSolar::createDevice()
     // rtcSetDeviceErrorFunction(mDevice, errorFunction, NULL);
 }
 
-void RayTraceSolar::errorFunction(void *userPtr, enum RTCError error, const char *str)
+void EmbreeSolar::errorFunction(void *userPtr, enum RTCError error, const char *str)
 {
     printf("error %d: %s\n", error, str);
 }
 
-void RayTraceSolar::createScene()
+void EmbreeSolar::createScene()
 {
     mScene = rtcNewScene(mDevice);
 }
 
-void RayTraceSolar::createGeom(Vertex *vertices, int nVertices, Face *triangles, int nFaces)
+void EmbreeSolar::createGeom(Vertex *vertices, int nVertices, Face *triangles, int nFaces)
 {
     // mGeometry = rtcNewGeometry(mDevice, RTC_GEOMETRY_TYPE_TRIANGLE);
 
@@ -148,7 +148,7 @@ void RayTraceSolar::createGeom(Vertex *vertices, int nVertices, Face *triangles,
     // rtcCommitScene(mScene);
 }
 
-void RayTraceSolar::createGeomPlane()
+void EmbreeSolar::createGeomPlane()
 {
     /* create triangle mesh */
     const float xStep = (mPp.xMax - mPp.xMin) / (mPp.xCount - 1);
@@ -200,7 +200,7 @@ void RayTraceSolar::createGeomPlane()
     rtcCommitScene(mScene);
 }
 
-void RayTraceSolar::createGridRays()
+void EmbreeSolar::createGridRays()
 {
     float xStep = ((mRp.xMax - mRp.xPadding) - (mRp.xMin + mRp.xPadding)) / (mRp.xCount - 1);
     float yStep = ((mRp.yMax - mRp.yPadding) - (mRp.yMin + mRp.yPadding)) / (mRp.yCount - 1);
@@ -236,7 +236,7 @@ void RayTraceSolar::createGridRays()
     }
 }
 
-void RayTraceSolar::bundleRays()
+void EmbreeSolar::bundleRays()
 {
     int bundleIndex4 = -1;
     int rayIndex4 = 0;
@@ -331,7 +331,7 @@ void RayTraceSolar::bundleRays()
     }
 }
 
-void RayTraceSolar::raytrace_int1()
+void EmbreeSolar::raytrace_int1()
 {
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -353,7 +353,7 @@ void RayTraceSolar::raytrace_int1()
     std::cout << "Time elapsed: " << duration.count() << " seconds" << std::endl;
 }
 
-void RayTraceSolar::raytrace_occ1()
+void EmbreeSolar::raytrace_occ1()
 {
     auto start = std::chrono::high_resolution_clock::now();
     printf("Testing --- rtcOccluded1 ---\n");
@@ -374,7 +374,7 @@ void RayTraceSolar::raytrace_occ1()
     std::cout << "Time elapsed: " << duration.count() << " seconds" << std::endl;
 }
 
-void RayTraceSolar::raytrace_occ4()
+void EmbreeSolar::raytrace_occ4()
 {
     auto start = std::chrono::high_resolution_clock::now();
     printf("Testing --- rtcOccluded4 ---\n");
@@ -398,7 +398,7 @@ void RayTraceSolar::raytrace_occ4()
     std::cout << "Time elapsed: " << duration.count() << " seconds" << std::endl;
 }
 
-void RayTraceSolar::raytrace_occ8()
+void EmbreeSolar::raytrace_occ8()
 {
     auto start = std::chrono::high_resolution_clock::now();
     printf("Testing --- rtcOccluded8 ---\n");
@@ -422,7 +422,7 @@ void RayTraceSolar::raytrace_occ8()
     std::cout << "Time elapsed: " << duration4.count() << " seconds" << std::endl;
 }
 
-void RayTraceSolar::raytrace_occ16()
+void EmbreeSolar::raytrace_occ16()
 {
     auto start = std::chrono::high_resolution_clock::now();
     printf("Testing --- rtcOccluded16 ---\n");

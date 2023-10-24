@@ -3,8 +3,7 @@
 
 int main()
 {
-
-    RayTraceSolar *raytracer = new RayTraceSolar();
+    EmbreeSolar *raytracer = new EmbreeSolar();
 
     // Setup analysis
     raytracer->createDevice();

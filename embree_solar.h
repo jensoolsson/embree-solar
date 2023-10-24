@@ -7,12 +7,12 @@
 #include <vector>
 #include "common.h"
 
-class RayTraceSolar
+class EmbreeSolar
 {
 
 public:
-    RayTraceSolar();
-    ~RayTraceSolar();
+    EmbreeSolar();
+    ~EmbreeSolar();
 
     void initArrays();
     void release();
