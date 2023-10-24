@@ -1,5 +1,5 @@
 
-#include "raytrace_solar.h"
+#include "embree_solar.h"
 
 int main()
 {

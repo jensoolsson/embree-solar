@@ -16,8 +16,7 @@ IF (EMBREE_SYCL_SUPPORT)
 ENDIF()
 
 
-#ADD_EXECUTABLE(embree_solar embree_solar.cpp)
-ADD_EXECUTABLE(embree_solar main.cpp raytrace_solar.cpp)
+ADD_EXECUTABLE(embree_solar main.cpp embree_solar.cpp)
 TARGET_LINK_LIBRARIES(embree_solar embree)
 
 SET_PROPERTY(TARGET embree_solar PROPERTY FOLDER tutorials/single)
@@ -27,19 +26,3 @@ IF (COMMAND SIGN_TARGET)
   SIGN_TARGET(embree_solar)
 ENDIF()
 
-
-
-#IF (EMBREE_SYCL_SUPPORT)
-  
-#  ADD_EXECUTABLE(embree_minimal_sycl minimal_sycl.cpp)
-#  TARGET_LINK_LIBRARIES(embree_minimal_sycl embree)
-#  SET_PROPERTY(TARGET embree_minimal_sycl APPEND PROPERTY COMPILE_FLAGS "-fsycl -Xclang -fsycl-allow-func-ptr -fsycl-targets=spir64")
-#  SET_PROPERTY(TARGET embree_minimal_sycl APPEND PROPERTY LINK_FLAGS    "-fsycl -fsycl-targets=spir64")
-  
-#  SET_PROPERTY(TARGET embree_minimal_sycl PROPERTY FOLDER tutorials/sycl)
-#  INSTALL(TARGETS embree_minimal_sycl DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT examples)
-#  IF (COMMAND SIGN_TARGET)
-#    SIGN_TARGET(embree_minimal_sycl)
-#  ENDIF()
-  
-#ENDIF()
