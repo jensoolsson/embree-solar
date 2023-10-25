@@ -1,4 +1,4 @@
-#pragma once
+
 #include </opt/homebrew/Cellar/embree/4.3.0/include/embree4/rtcore.h>
 #include <stdio.h>
 #include <math.h>

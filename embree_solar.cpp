@@ -1,4 +1,5 @@
 #include "embree_solar.h"
+#include <pybind11/pybind11.h>
 
 EmbreeSolar::EmbreeSolar()
 {
@@ -9,8 +10,8 @@ EmbreeSolar::EmbreeSolar()
     mPp.yMax = 10.0f;
     mPp.xPadding = 0.0f;
     mPp.yPadding = 0.0f;
-    mPp.xCount = 11;
-    mPp.yCount = 11;
+    mPp.xCount = 101;
+    mPp.yCount = 101;
 
     // Ray parameters
     mRp.xMin = -10.0f;
@@ -19,8 +20,8 @@ EmbreeSolar::EmbreeSolar()
     mRp.yMax = 10.0f;
     mRp.xPadding = 0.1f;
     mRp.yPadding = 0.1f;
-    mRp.xCount = 5000;
-    mRp.yCount = 5000;
+    mRp.xCount = 500;
+    mRp.yCount = 500;
 
     mVertexCount = mPp.xCount * mPp.yCount;
     mFaceCount = (mPp.xCount - 1) * (mPp.yCount - 1) * 2;
@@ -119,6 +120,8 @@ void EmbreeSolar::createDevice()
         printf("error %d: cannot create device\n", rtcGetDeviceError(NULL));
 
     // rtcSetDeviceErrorFunction(mDevice, errorFunction, NULL);
+
+    printf("Device created.\n");
 }
 
 void EmbreeSolar::errorFunction(void *userPtr, enum RTCError error, const char *str)
@@ -129,6 +132,8 @@ void EmbreeSolar::errorFunction(void *userPtr, enum RTCError error, const char *
 void EmbreeSolar::createScene()
 {
     mScene = rtcNewScene(mDevice);
+
+    printf("Scene created.\n");
 }
 
 void EmbreeSolar::createGeom(Vertex *vertices, int nVertices, Face *triangles, int nFaces)
@@ -444,4 +449,28 @@ void EmbreeSolar::raytrace_occ16()
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> duration5 = end - start;
     std::cout << "Time elapsed: " << duration5.count() << " seconds" << std::endl;
+}
+
+namespace py = pybind11;
+
+void add(int i, int j)
+{
+    std::cout << "Hello pybind11!" << std::endl;
+    std::cout << i << " + " << j << " = " << i + j << std::endl;
+}
+
+PYBIND11_MODULE(py_embree_solar, m)
+{
+    py::class_<EmbreeSolar>(m, "PyEmbreeSolar")
+        .def(py::init<>())                               // Exposing the constructor
+        .def("createDevice", &EmbreeSolar::createDevice) // Exposing the member function
+        .def("createScene", &EmbreeSolar::createScene)
+        .def("createGeomPlane", &EmbreeSolar::createGeomPlane)
+        .def("createGridRays", &EmbreeSolar::createGridRays)
+        .def("bundleRays", &EmbreeSolar::bundleRays)
+        .def("raytrace_int1", &EmbreeSolar::raytrace_int1)
+        .def("raytrace_occ1", &EmbreeSolar::raytrace_occ1)
+        .def("raytrace_occ4", &EmbreeSolar::raytrace_occ4)
+        .def("raytrace_occ8", &EmbreeSolar::raytrace_occ8)
+        .def("raytrace_occ16", &EmbreeSolar::raytrace_occ16);
 }

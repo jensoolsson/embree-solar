@@ -1,6 +1,5 @@
 
 #include "embree_solar.h"
-// #include <pybind11/pybind11.h>
 
 int main()
 {
