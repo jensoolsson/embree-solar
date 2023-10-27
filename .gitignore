@@ -1,3 +1,5 @@
 /bin/
 /build/
 /pybind11/
+/data/
+.DS_Store
