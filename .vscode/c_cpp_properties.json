@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "/opt/homebrew/Caskroom/miniforge/base/envs/dtcc_dev/include",
                 "/opt/homebrew/Cellar/embree/4.3.0/include/",
-                "/opt/homebrew/Caskroom/miniforge/base/envs/dtcc_dev/lib/python3.12/site-packages/pybind11/include/"
+                "/opt/homebrew/Caskroom/miniforge/base/envs/dtcc_dev/lib/python3.12/site-packages/pybind11/include/",
+                "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Headers/"
             ],
             "defines": [],
             "macFrameworkPath": [
